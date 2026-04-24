@@ -3,15 +3,19 @@
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError("");
     try {
       const res = await signIn("credentials", {
         username,
@@ -21,12 +25,14 @@ export default function LoginPage() {
 
       if (res?.error) {
         setError("Invalid credentials");
+        setIsLoading(false);
         return;
       }
 
       router.push("/dashboard");
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 
@@ -70,9 +76,11 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="w-full py-2.5 bg-gradient-to-r from-teal-500 to-sky-500 hover:from-teal-400 hover:to-sky-400 rounded-lg font-semibold transition-all duration-200"
+            disabled={isLoading}
+            className="w-full py-2.5 bg-gradient-to-r from-teal-500 to-sky-500 hover:from-teal-400 hover:to-sky-400 disabled:opacity-70 disabled:cursor-not-allowed rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2"
           >
-            Sign In
+            {isLoading && <Loader2 className="animate-spin" size={20} />}
+            {isLoading ? "Signing In..." : "Sign In"}
           </button>
         </form>
         

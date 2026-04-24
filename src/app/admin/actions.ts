@@ -19,7 +19,7 @@ export async function uploadDocument(formData: FormData) {
   if (!file || !title || !type) throw new Error("Missing required fields.");
 
   const fileExt = file.name.split('.').pop();
-  const fileName = `${crypto.randomUUID()}.${fileExt}`;
+  const fileName = `${title}.${fileExt}`;
   const filePath = `${fileName}`; 
 
   const arrayBuffer = await file.arrayBuffer();
@@ -190,9 +190,25 @@ export async function renameDocument(documentId: string, newTitle: string) {
 
   if (!newTitle || !newTitle.trim()) throw new Error("Title cannot be empty.");
 
+  const { data: doc } = await supabase.from('Documents').select('link').eq('id', documentId).single();
+  let newLink = doc?.link;
+
+  if (doc?.link?.startsWith('storage::')) {
+    const oldPath = doc.link.replace('storage::', '');
+    const ext = oldPath.split('.').pop();
+    const newPath = `${newTitle.trim()}.${ext}`;
+    
+    const { error: moveError } = await supabase.storage.from(BUCKET_NAME).move(oldPath, newPath);
+    if (moveError) {
+      // If the file already exists or there's another error, don't break completely, just throw so the user knows
+      throw new Error(`Failed to rename file in storage: ${moveError.message}`);
+    }
+    newLink = `storage::${newPath}`;
+  }
+
   const { error } = await supabase
     .from('Documents')
-    .update({ title: newTitle.trim() })
+    .update({ title: newTitle.trim(), link: newLink })
     .eq('id', documentId);
 
   if (error) throw new Error(`Failed to rename: ${error.message}`);
