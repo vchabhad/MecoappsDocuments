@@ -6,6 +6,8 @@ import { supabase } from "@/lib/supabase";
 import fs from "fs";
 import path from "path";
 
+const BUCKET_NAME = 'presentations';
+
 export async function uploadDocument(formData: FormData) {
   const session = await getServerSession(authOptions);
   if (session?.user?.role !== 'admin') throw new Error("Unauthorized");
@@ -24,14 +26,14 @@ export async function uploadDocument(formData: FormData) {
   const buffer = Buffer.from(arrayBuffer);
 
   const { error: uploadError } = await supabase.storage
-    .from('presentations')
+    .from(BUCKET_NAME)
     .upload(filePath, buffer, { contentType: file.type, upsert: false });
 
   if (uploadError) throw new Error(`Failed to upload: ${uploadError.message}`);
 
-  const { data: publicUrlData } = supabase.storage
-    .from('presentations')
-    .getPublicUrl(filePath);
+  // Store the storage path so we can generate signed URLs on-demand
+  // The link field stores: "storage::<filePath>" for storage files
+  const storageLink = `storage::${filePath}`;
 
   const documentId = crypto.randomUUID();
   const { error: dbError } = await supabase
@@ -40,7 +42,7 @@ export async function uploadDocument(formData: FormData) {
       id: documentId,
       title: title,
       type: type,
-      link: publicUrlData.publicUrl,
+      link: storageLink,
       created_at: new Date().toISOString()
     });
 
@@ -166,12 +168,54 @@ export async function deleteDocument(documentId: string) {
   const session = await getServerSession(authOptions);
   if (session?.user?.role !== 'admin') throw new Error("Unauthorized");
 
+  // Get the document first to check if it has a storage file to delete
+  const { data: doc } = await supabase.from('Documents').select('link').eq('id', documentId).single();
+  
+  if (doc?.link?.startsWith('storage::')) {
+    const storagePath = doc.link.replace('storage::', '');
+    await supabase.storage.from(BUCKET_NAME).remove([storagePath]);
+  }
+
   // Also delete all access rules associated with it
   await supabase.from('DocumentAccess').delete().eq('document_id', documentId);
 
   const { error } = await supabase.from('Documents').delete().eq('id', documentId);
   if (error) throw new Error(error.message);
   return { success: true };
+}
+
+export async function renameDocument(documentId: string, newTitle: string) {
+  const session = await getServerSession(authOptions);
+  if (session?.user?.role !== 'admin') throw new Error("Unauthorized");
+
+  if (!newTitle || !newTitle.trim()) throw new Error("Title cannot be empty.");
+
+  const { error } = await supabase
+    .from('Documents')
+    .update({ title: newTitle.trim() })
+    .eq('id', documentId);
+
+  if (error) throw new Error(`Failed to rename: ${error.message}`);
+  return { success: true };
+}
+
+// Generate a signed URL for a storage file (valid for 1 hour)
+export async function getSignedDocumentUrl(link: string) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.name) throw new Error("Unauthorized");
+
+  if (!link.startsWith('storage::')) {
+    // Not a storage file (it's a web link or external URL), return as-is
+    return link;
+  }
+
+  const storagePath = link.replace('storage::', '');
+  const { data, error } = await supabase.storage
+    .from(BUCKET_NAME)
+    .createSignedUrl(storagePath, 3600); // 1 hour expiry
+
+  if (error) throw new Error(`Failed to generate URL: ${error.message}`);
+  return data.signedUrl;
 }
 
 export async function updateUserPassword(userId: number, newPassword: string) {

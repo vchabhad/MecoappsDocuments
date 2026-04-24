@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { FileText, FileVideo, Search, Filter } from "lucide-react";
+import { FileText, FileVideo, Search, Filter, Loader2 } from "lucide-react";
+import { getSignedDocumentUrl } from "@/app/admin/actions";
 
 export default function DashboardClient({ presentations }: { presentations: any[] }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterType, setFilterType] = useState("all");
   const [sortBy, setSortBy] = useState("newest");
+  const [loadingDocId, setLoadingDocId] = useState<string | null>(null);
 
   // Filtering
   const filtered = presentations.filter((item) => {
@@ -95,34 +97,56 @@ export default function DashboardClient({ presentations }: { presentations: any[
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sortedAndFiltered.map((item) => (
-            <a
-              key={item.id}
-              href={item.link}
-              target={item.type.toLowerCase() === 'spreadsheet' || item.type.toLowerCase() === 'pdf' ? '_blank' : '_self'}
-              rel="noreferrer"
-              className="block p-6 bg-gray-800 border border-gray-700 rounded-xl hover:border-sky-500/50 hover:bg-gray-800/80 transition-all group"
-            >
-              <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-gray-900 rounded-lg group-hover:bg-gray-900/50 transition-colors">
-                  {item.type.toLowerCase() === 'web' ? (
-                    <FileVideo className="text-sky-400" size={24} />
-                  ) : (
-                    <FileText className="text-teal-400" size={24} />
-                  )}
+          {sortedAndFiltered.map((item) => {
+            const isStorageFile = item.link?.startsWith('storage::');
+            const isLoading = loadingDocId === item.id;
+
+            const handleClick = async (e: React.MouseEvent) => {
+              if (!isStorageFile) return; // Let normal links work as-is
+              e.preventDefault();
+              setLoadingDocId(item.id);
+              try {
+                const signedUrl = await getSignedDocumentUrl(item.link);
+                window.open(signedUrl, '_blank');
+              } catch (err: any) {
+                alert('Failed to open document: ' + err.message);
+              } finally {
+                setLoadingDocId(null);
+              }
+            };
+
+            return (
+              <a
+                key={item.id}
+                href={isStorageFile ? '#' : item.link}
+                target={!isStorageFile && (item.type.toLowerCase() === 'spreadsheet' || item.type.toLowerCase() === 'pdf') ? '_blank' : '_self'}
+                rel="noreferrer"
+                onClick={handleClick}
+                className={`block p-6 bg-gray-800 border border-gray-700 rounded-xl hover:border-sky-500/50 hover:bg-gray-800/80 transition-all group ${isLoading ? 'opacity-70 pointer-events-none' : ''}`}
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div className="p-3 bg-gray-900 rounded-lg group-hover:bg-gray-900/50 transition-colors">
+                    {isLoading ? (
+                      <Loader2 className="text-sky-400 animate-spin" size={24} />
+                    ) : item.type.toLowerCase() === 'web' ? (
+                      <FileVideo className="text-sky-400" size={24} />
+                    ) : (
+                      <FileText className="text-teal-400" size={24} />
+                    )}
+                  </div>
+                  <span className="text-xs font-medium px-2 py-1 bg-gray-700 rounded-full text-gray-300">
+                    {item.type.toUpperCase()}
+                  </span>
                 </div>
-                <span className="text-xs font-medium px-2 py-1 bg-gray-700 rounded-full text-gray-300">
-                  {item.type.toUpperCase()}
-                </span>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-100 mb-2 truncate" title={item.title}>
-                {item.title}
-              </h3>
-              <p className="text-sm text-gray-500">
-                {new Date(item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-              </p>
-            </a>
-          ))}
+                <h3 className="text-lg font-semibold text-gray-100 mb-2 truncate" title={item.title}>
+                  {item.title}
+                </h3>
+                <p className="text-sm text-gray-500">
+                  {new Date(item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                </p>
+              </a>
+            );
+          })}
         </div>
       )}
     </section>

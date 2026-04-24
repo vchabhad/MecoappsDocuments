@@ -3,11 +3,11 @@
 import { useState, useEffect, useRef } from "react";
 import { 
   uploadDocument, fetchUsers, fetchDocuments, fetchAccessLogs, fetchLocalWebPresentations,
-  grantAccess, revokeAccess, createUser, deleteUser, deleteDocument, updateUserPassword, registerWebDocument
+  grantAccess, revokeAccess, createUser, deleteUser, deleteDocument, updateUserPassword, registerWebDocument, renameDocument
 } from "./actions";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import { Trash2, Key, Shield, ShieldOff, Search, FileText, Plus, ChevronDown } from "lucide-react";
+import { Trash2, Key, Shield, ShieldOff, Search, FileText, Plus, ChevronDown, Pencil, Check, X } from "lucide-react";
 
 export default function AdminDashboard() {
   const { data: session, status } = useSession();
@@ -29,6 +29,10 @@ export default function AdminDashboard() {
   const [globalDocFilter, setGlobalDocFilter] = useState("all");
   const [localWebDropdownOpen, setLocalWebDropdownOpen] = useState(false);
   const [localWebSearch, setLocalWebSearch] = useState("");
+
+  // Rename State
+  const [renamingDocId, setRenamingDocId] = useState<string | null>(null);
+  const [renameValue, setRenameValue] = useState("");
 
   // Add User State
   const [showAddUser, setShowAddUser] = useState(false);
@@ -162,6 +166,28 @@ export default function AdminDashboard() {
     } catch (e: any) {
       alert("Failed to update access: " + e.message);
     }
+  };
+
+  const handleRenameStart = (doc: any) => {
+    setRenamingDocId(doc.id);
+    setRenameValue(doc.title);
+  };
+
+  const handleRenameConfirm = async () => {
+    if (!renamingDocId) return;
+    try {
+      await renameDocument(renamingDocId, renameValue);
+      setRenamingDocId(null);
+      setRenameValue("");
+      loadData();
+    } catch (e: any) {
+      alert("Failed to rename: " + e.message);
+    }
+  };
+
+  const handleRenameCancel = () => {
+    setRenamingDocId(null);
+    setRenameValue("");
   };
 
   if (status === "loading" || session?.user?.role !== "admin") {
@@ -378,9 +404,27 @@ export default function AdminDashboard() {
                 <tbody>
                   {filteredGlobalDocs.map(d => (
                     <tr key={d.id} className="border-b border-gray-800/50 hover:bg-gray-800 transition">
-                      <td className="py-3 px-4 truncate max-w-[150px] lg:max-w-[200px]" title={d.title}>{d.title}</td>
+                      <td className="py-3 px-4 truncate max-w-[150px] lg:max-w-[200px]">
+                        {renamingDocId === d.id ? (
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="text"
+                              value={renameValue}
+                              onChange={e => setRenameValue(e.target.value)}
+                              onKeyDown={e => { if (e.key === 'Enter') handleRenameConfirm(); if (e.key === 'Escape') handleRenameCancel(); }}
+                              autoFocus
+                              className="bg-gray-900 border border-sky-500 rounded px-2 py-1 text-sm text-white w-full focus:outline-none"
+                            />
+                            <button title="Save" onClick={handleRenameConfirm} className="text-green-400 hover:text-green-300 shrink-0"><Check size={16} /></button>
+                            <button title="Cancel" onClick={handleRenameCancel} className="text-gray-400 hover:text-gray-300 shrink-0"><X size={16} /></button>
+                          </div>
+                        ) : (
+                          <span title={d.title}>{d.title}</span>
+                        )}
+                      </td>
                       <td className="py-3 px-4 text-gray-400 uppercase text-xs tracking-wider">{d.type}</td>
                       <td className="py-3 px-4 text-right">
+                        <button title="Rename Document" onClick={() => handleRenameStart(d)} className="text-sky-400 hover:text-sky-300 mr-3"><Pencil size={16} /></button>
                         <button title="Delete Document" onClick={async () => { if(confirm(`Delete ${d.title}?`)) { await deleteDocument(d.id); loadData(); } }} className="text-red-400 hover:text-red-300"><Trash2 size={16} /></button>
                       </td>
                     </tr>
