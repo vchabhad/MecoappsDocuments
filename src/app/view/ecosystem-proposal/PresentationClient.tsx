@@ -618,5 +618,3 @@ import Script from "next/script";
         };
 
         export default App;
-export default App;
-    
