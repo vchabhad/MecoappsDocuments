@@ -493,13 +493,14 @@ import Script from "next/script";
                         </div>
                     </div>
                     <div className="flex-1">
-                        <h3 className="text-xl font-bold mb-5 mt-2">What I Need To Execute</h3>
+                        <h3 className="text-xl font-bold mb-5 mt-2">What we Need To Execute this plan</h3>
                         <div className="space-y-3">
                             {[
                                 'Official Sanction & Approval',
                                 'Pilot Authorization (Advita)',
                                 'Infrastructure Support',
-                                'Small Support Team for Feedback'
+                                'Small Support Team for Feedback',
+                                'Supporting members under my team for faster and proper structured development and implementations'
                             ].map((need, i) => (
                                 <div key={i} className="flex items-center gap-3 p-4 rounded-xl bg-[#061a35]/50 border border-[#38bdf8]/10">
                                     <div className="w-6 h-6 rounded-full bg-[#0d9488] text-[#041428] flex items-center justify-center text-xs font-bold">{i+1}</div>
