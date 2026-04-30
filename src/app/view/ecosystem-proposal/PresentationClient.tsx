@@ -277,7 +277,7 @@ import Script from "next/script";
                 <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-8">Systemic <span style={{ color: '#f87171' }}>Failures</span> & Lost Hours</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     {[
-                        [1000, '+', 'hrs / year', 'Spent on manual entry'],
+                        [10000, '+', 'hrs / year', 'Spent on manual entry'],
                         [5, '+', 'tools', 'Scattered communication'],
                         [100, '%', 'exposed', 'Unsecured devices']
                     ].map(([target, suffix, unit, desc], idx) => (
@@ -388,7 +388,7 @@ import Script from "next/script";
                     <div className="grid grid-cols-3 gap-4 mb-6">
                         <Card hover className="text-center p-6">
                             <div className="text-[2.5rem] font-extrabold tracking-tight leading-none" style={{ background: 'linear-gradient(135deg, #5eead4, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                                <AnimatedCounter target={1000} suffix="+" isActive={isActive} />
+                                <AnimatedCounter target={10000} suffix="+" isActive={isActive} />
                             </div>
                             <div className="text-sm mt-2" style={{ color: '#64748b' }}>Leadership hours saved</div>
                         </Card>
