@@ -267,9 +267,9 @@ import Script from "next/script";
         const ProblemSlide = ({ isActive }) => {
             const failures = [
                 { icon: 'puzzle', title: 'Tool Fragmentation', desc: 'No standardization.' },
-                { icon: 'clock', title: 'Manual Burden', desc: 'Repetitive tasks eat time.' },
+                { icon: 'clock', title: 'Manual Burden', desc: 'Repetitive tasks consume time.' },
                 { icon: 'messages-square', title: 'Scattered Comms', desc: 'Messages lost across apps.' },
-                { icon: 'shield-alert', title: 'Security Risk', desc: 'Unsecured VPN access.' },
+                { icon: 'shield-alert', title: 'Security Risk', desc: 'Network drive access to unsecured devices.' },
             ];
             return (
             <div className="w-full max-w-5xl">
@@ -313,6 +313,7 @@ import Script from "next/script";
                 { name: 'Management', desc: 'Dashboards', icon: 'bar-chart-3', pos: { top: '80%', left: '20%' } },
                 { name: 'Admin', desc: 'Settings', icon: 'settings', pos: { top: '35%', left: '15%' } }
             ];
+            const tags = ['Single Sign-On', 'Role-Based Access', 'Real-time Data', 'Zero-Trust Security', 'Unified Chat', 'Scalable Architecture'];
             
             return (
                 <div className="w-full max-w-5xl flex flex-col items-center" style={{ zoom: 0.9 }}>
@@ -360,6 +361,9 @@ import Script from "next/script";
                                 <span className="text-xs font-bold text-white text-center leading-tight">{p.name}</span>
                             </div>
                         ))}
+                    </div>
+                    <div className="flex flex-wrap justify-center gap-2 relative z-20 mt-4">
+                        {tags.map((tag, i) => <Tag key={tag} variant={i % 2 === 0 ? 'teal' : 'blue'}>{tag}</Tag>)}
                     </div>
                 </div>
             );
@@ -500,7 +504,7 @@ import Script from "next/script";
                                 'Pilot Authorization (Advita)',
                                 'Infrastructure Support',
                                 'Small Support Team for Feedback',
-                                'Supporting members under my team for faster and proper structured development and implementations'
+                                'Support team for faster, structured development'
                             ].map((need, i) => (
                                 <div key={i} className="flex items-center gap-3 p-4 rounded-xl bg-[#061a35]/50 border border-[#38bdf8]/10">
                                     <div className="w-6 h-6 rounded-full bg-[#0d9488] text-[#041428] flex items-center justify-center text-xs font-bold">{i+1}</div>
