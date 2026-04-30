@@ -238,7 +238,7 @@ import Script from "next/script";
             const items = [
                 { num: '01', title: 'The Problem', desc: 'Manual overload, fragmented tools, security gaps', slide: 2 },
                 { num: '02', title: 'The Solution', desc: 'MecoApps unified ecosystem', slide: 3 },
-                { num: '03', title: 'Business Impact', desc: 'Saved hours, accuracy, security', slide: 4 },
+                { num: '03', title: 'Business Impact', desc: 'Saved hours, efficiency, security', slide: 4 },
                 { num: '04', title: 'Current Progress', desc: 'Mproduction, Security & Unified Chat', slide: 5 },
                 { num: '05', title: 'The Plan', desc: 'Roadmap & Next steps', slide: 6 }
             ];
@@ -392,7 +392,7 @@ import Script from "next/script";
                             <div className="text-[2.5rem] font-extrabold tracking-tight leading-none" style={{ background: 'linear-gradient(135deg, #5eead4, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                                 <AnimatedCounter target={100} suffix="%" isActive={isActive} />
                             </div>
-                            <div className="text-sm mt-2" style={{ color: '#64748b' }}>Billing accuracy</div>
+                            <div className="text-sm mt-2" style={{ color: '#64748b' }}>Operational visibility</div>
                         </Card>
                         <Card hover className="text-center p-6">
                             <div className="text-[2.5rem] font-extrabold tracking-tight leading-none" style={{ color: '#f87171' }}>
@@ -476,7 +476,7 @@ import Script from "next/script";
                             {[
                                 { phase: 'NOW', title: 'Mproduction Pilot', desc: 'Finish 30% → Advita Pilot', active: true },
                                 { phase: 'PHASE 2', title: 'HRMS Portal', desc: 'Recruitment, payroll, attendance' },
-                                { phase: 'PHASE 3', title: 'Management', desc: 'Dashboards & billing' },
+                                { phase: 'PHASE 3', title: 'Management', desc: 'Dashboards & analytics' },
                                 { phase: 'PHASE 4', title: 'Full Rollout', desc: 'All departments live.' }
                             ].map((p, i) => (
                                 <div key={i} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
