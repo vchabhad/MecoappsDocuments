@@ -236,11 +236,11 @@ import Script from "next/script";
         // ============================================
         const AgendaSlide = ({ onNavigate }) => {
             const items = [
-                { num: '01', title: 'The Problem', desc: 'Manual overload, fragmented tools, security gaps, billing inefficiency', slide: 2 },
-                { num: '02', title: 'The Solution', desc: 'MecoApps unified ecosystem — multiple portals, one platform', slide: 5 },
-                { num: '03', title: 'The Impact', desc: 'Saved hours, billing accuracy, security posture, scalability', slide: 8 },
-                { num: '04', title: 'The Current Progress', desc: 'Current stage of development, current and upcoming features', slide: 10 },
-                { num: '05', title: 'The Plan', desc: 'Roadmap, resources needed, next steps', slide: 14 }
+                { num: '01', title: 'The Problem', desc: 'Manual overload, fragmented tools, security gaps', slide: 2 },
+                { num: '02', title: 'The Solution', desc: 'MecoApps unified ecosystem', slide: 3 },
+                { num: '03', title: 'Business Impact', desc: 'Saved hours, accuracy, security', slide: 4 },
+                { num: '04', title: 'Current Progress', desc: 'Mproduction, Security & Unified Chat', slide: 5 },
+                { num: '05', title: 'The Plan', desc: 'Roadmap & Next steps', slide: 6 }
             ];
             return (
                 <div className="w-full max-w-3xl">
@@ -261,230 +261,155 @@ import Script from "next/script";
             );
         };
 
+// ============================================
+        // SLIDE 2: THE PROBLEM (Combined)
         // ============================================
-        // SLIDE 3: PROBLEM NUMBERS
-        // ============================================
-        const ProblemNumbersSlide = ({ isActive }) => (
+        const ProblemSlide = ({ isActive }) => {
+            const failures = [
+                { icon: 'puzzle', title: 'Tool Fragmentation', desc: 'No standardization.' },
+                { icon: 'clock', title: 'Manual Burden', desc: 'Repetitive tasks eat time.' },
+                { icon: 'messages-square', title: 'Scattered Comms', desc: 'Messages lost across apps.' },
+                { icon: 'shield-alert', title: 'Security Risk', desc: 'Unsecured VPN access.' },
+            ];
+            return (
             <div className="w-full max-w-5xl">
-                <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-10">The Numbers That <span style={{ color: '#f87171' }}>Hurt</span></h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <p className="text-sm font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#64748b' }}>01 / The Problem</p>
+                <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-8">Systemic <span style={{ color: '#f87171' }}>Failures</span> & Lost Hours</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     {[
-                        [1000, '+', 'hrs / year', 'Every Team Lead and Managers spend this on manual data entry, collation, and report preparation'],
-                        [5, '+', 'tools for communication', 'Teams, Spark, LinQ, Email, Google Chat — no single platform, conversations scattered'],
-                        [100, '%', 'exposed', 'WFH users access company network drives on personal often unsecured devices']
+                        [1000, '+', 'hrs / year', 'Spent on manual entry'],
+                        [5, '+', 'tools', 'Scattered communication'],
+                        [100, '%', 'exposed', 'Unsecured devices']
                     ].map(([target, suffix, unit, desc], idx) => (
-                        <Card key={idx} hover className="text-center">
-                            <div className="text-5xl font-extrabold tracking-tight" style={{ color: '#f87171' }}>
+                        <Card key={idx} hover className="text-center p-4">
+                            <div className="text-4xl font-extrabold tracking-tight" style={{ color: '#f87171' }}>
                                 <AnimatedCounter target={target} suffix={suffix} isActive={isActive} />
                             </div>
-                            <div className="text-base font-medium mt-2" style={{ color: '#fca5a5' }}>{unit}</div>
-                            <div className="text-sm mt-3 leading-relaxed" style={{ color: '#64748b' }}>{desc}</div>
+                            <div className="text-sm font-medium mt-1" style={{ color: '#fca5a5' }}>{unit}</div>
+                            <div className="text-xs mt-2" style={{ color: '#64748b' }}>{desc}</div>
                         </Card>
                     ))}
                 </div>
-                <p className="text-center text-sm mt-7" style={{ color: '#64748b' }}>Result: thousands of lost hours, billing inaccuracies, security vulnerabilities.</p>
-            </div>
-        );
-
-        // ============================================
-        // SLIDE 4: FAILURES
-        // ============================================
-        const FailuresSlide = () => {
-            const failures = [
-                { icon: 'puzzle', title: 'Tool Fragmentation', desc: 'Different Excel per client, no standardization.' },
-                { icon: 'clock', title: 'Manual Effort Burden', desc: 'Repetitive tasks consume TL capacity.' },
-                { icon: 'messages-square', title: 'Scattered Communication', desc: 'Messages lost across Teams, Spark, LinQ.' },
-                { icon: 'shield-alert', title: 'Security Risk', desc: 'Personal often unsecured devices access network via VPN.' },
-                { icon: 'receipt', title: 'Billing Inaccuracy', desc: 'Human errors → wrong billing → revenue loss.' },
-                { icon: 'trending-down', title: 'Zero Scalability', desc: 'Every new client needs new templates.' }
-            ];
-            return (
-                <div className="w-full max-w-5xl">
-                    <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-7">Six Systemic <span style={{ color: '#94a3b8' }}>Failures</span></h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        {failures.map((f, i) => (
-                            <Card key={i} className="flex items-start gap-4 p-5">
-                                <DangerIconBox icon={f.icon} />
-                                <div><p className="text-sm font-semibold text-white mb-1">{f.title}</p><p className="text-sm leading-relaxed" style={{ color: '#64748b' }}>{f.desc}</p></div>
-                            </Card>
-                        ))}
-                    </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    {failures.map((f, i) => (
+                        <div key={i} className="flex flex-col items-center text-center p-3 rounded-xl" style={{ background: 'rgba(239,68,68,0.03)', border: '1px solid rgba(239,68,68,0.08)' }}>
+                            <DangerIconBox icon={f.icon} />
+                            <p className="text-sm font-semibold text-white mt-2 mb-1">{f.title}</p>
+                            <p className="text-xs" style={{ color: '#64748b' }}>{f.desc}</p>
+                        </div>
+                    ))}
                 </div>
-            );
-        };
+            </div>
+        )};
 
+// ============================================
+        // SLIDE 3: THE SOLUTION (Ecosystem + Flow)
         // ============================================
-        // SLIDE 6: ECOSYSTEM DIAGRAM
-        // ============================================
-        // ============================================
-        // SLIDE 6: ECOSYSTEM DIAGRAM
-        // ============================================
-        const EcosystemDiagramSlide = () => {
+        const SolutionSlide = () => {
             const portals = [
-                { name: 'Mproduction', desc: 'Production, QC, Training', icon: 'factory', pos: { top: '8%', left: '50%' } },
-                { name: 'Reporting', desc: 'Analytics & Insights', icon: 'file-bar-chart', pos: { top: '38%', left: '88%' } },
-                { name: 'HRMS', desc: 'People & Payroll', icon: 'users', pos: { top: '82%', left: '82%' } },
-                { name: 'Management', desc: 'Dashboards & Billing', icon: 'bar-chart-3', pos: { top: '82%', left: '18%' } },
-                { name: 'Admin', desc: 'Admin Tasks & Reporting', icon: 'settings', pos: { top: '38%', left: '12%' } }
+                { name: 'Mproduction', desc: 'Prod & QC', icon: 'factory', pos: { top: '10%', left: '50%' } },
+                { name: 'Reporting', desc: 'Analytics', icon: 'file-bar-chart', pos: { top: '35%', left: '85%' } },
+                { name: 'HRMS', desc: 'People', icon: 'users', pos: { top: '80%', left: '80%' } },
+                { name: 'Management', desc: 'Dashboards', icon: 'bar-chart-3', pos: { top: '80%', left: '20%' } },
+                { name: 'Admin', desc: 'Settings', icon: 'settings', pos: { top: '35%', left: '15%' } }
             ];
-            const tags = ['Single Sign-On', 'Role-Based Access', 'Real-time Data', 'Zero-Trust Security', 'Unified Chat', 'Scalable Architecture'];
             
             return (
-                <div className="w-full max-w-5xl flex flex-col items-center" style={{ zoom: 0.92 }}>
+                <div className="w-full max-w-5xl flex flex-col items-center" style={{ zoom: 0.9 }}>
+                    <p className="text-sm font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#64748b' }}>02 / The Solution</p>
                     <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-2 text-center">The MecoApps <span style={{ background: 'linear-gradient(135deg, #5eead4, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Ecosystem</span></h2>
-                    <p className="text-sm mb-10 text-center" style={{ color: '#64748b' }}>Multiple interconnected portals. One secure platform.</p>
+                    <p className="text-sm mb-6 text-center" style={{ color: '#64748b' }}>One secure platform. Data flows from Entry → Single DB → Auto Reports.</p>
                     
-                    <div className="relative w-full max-w-[540px] aspect-square mx-auto mb-6">
-                        {/* Connecting Lines */}
+                    <div className="flex items-center gap-0 mb-6 px-1 w-full max-w-3xl">
+                        <div className="flex flex-col items-center p-4 rounded-xl relative z-10" style={{ background: '#03101f', border: '1px solid rgba(56,189,248,0.15)', borderRadius: '14px 0 0 14px', flex: 1 }}>
+                            <p className="text-sm font-semibold text-white">1. Enter Once</p>
+                        </div>
+                        <FlowConnector delay={0} />
+                        <div className="flex flex-col items-center p-4 rounded-xl relative z-10" style={{ background: '#03101f', border: '1px solid rgba(14,165,233,0.22)', flex: 1 }}>
+                            <p className="text-sm font-semibold text-white">2. Central DB</p>
+                        </div>
+                        <FlowConnector delay={0.8} />
+                        <div className="flex flex-col items-center p-4 rounded-xl relative z-10" style={{ background: '#03101f', border: '1px solid rgba(14,165,233,0.22)', borderRadius: '0 14px 14px 0', flex: 1 }}>
+                            <p className="text-sm font-semibold text-white">3. Auto-Flows</p>
+                        </div>
+                    </div>
+
+                    <div className="relative w-full max-w-[400px] aspect-square mx-auto mt-2">
                         <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 100 100" preserveAspectRatio="none">
                             {portals.map((p, i) => {
                                 const t = parseFloat(p.pos.top);
                                 const l = parseFloat(p.pos.left);
-                                const dx = l - 50;
-                                const dy = t - 50;
-                                const angle = Math.atan2(dy, dx);
-                                const a = 14; // Horizontal radius of logo in %
-                                const b = 5;  // Vertical radius of logo in %
-                                const r = (a * b) / Math.sqrt(Math.pow(b * Math.cos(angle), 2) + Math.pow(a * Math.sin(angle), 2));
+                                const angle = Math.atan2(t - 50, l - 50);
+                                const r = 10;
                                 const startX = 50 + r * Math.cos(angle);
                                 const startY = 50 + r * Math.sin(angle);
-                                
                                 return (
                                     <g key={`line-${i}`}>
                                         <line x1={startX} y1={startY} x2={l} y2={t} stroke="rgba(14, 165, 233, 0.25)" strokeWidth="0.4" strokeDasharray="1, 1" />
-                                        <circle r="0.8" fill="#5eead4">
-                                            <animateMotion dur={`${3 + (i % 2)}s`} repeatCount="indefinite" path={`M${startX},${startY} L${l},${t}`} begin={`${i * 0.5}s`} />
-                                        </circle>
                                     </g>
                                 );
                             })}
                         </svg>
-
-                        {/* Central MecoApps Logo */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center justify-center">
-                            <img src="/assets/mecoapps_logo.png" alt="MecoApps Core" className="relative z-10 w-40 h-auto" />
+                            <img src="/assets/mecoapps_logo.png" alt="MecoApps Core" className="relative z-10 w-28 h-auto" />
                         </div>
-
-                        {/* Orbiting Portals */}
                         {portals.map((p, i) => (
-                            <div key={p.name} className="absolute z-10 flex flex-col items-center justify-center gap-1 p-3 rounded-2xl transition-all duration-300 w-[135px] -translate-x-1/2 -translate-y-1/2" 
-                                style={{ 
-                                    top: p.pos.top, left: p.pos.left, 
-                                    background: 'rgba(3, 16, 31, 0.95)', 
-                                    border: '1px solid rgba(56,189,248,0.15)'
-                                }}
-                                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(94,234,212,0.5)'; }}
-                                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(56,189,248,0.15)'; }}
-                            >
-                                <div className="p-1.5 rounded-full mb-1" style={{ background: 'rgba(14,165,233,0.1)' }}>
-                                    <i data-lucide={p.icon} style={{width: '18px', height: '18px', color: '#5eead4'}}></i>
-                                </div>
-                                <span className="text-sm font-bold text-white text-center leading-tight">{p.name}</span>
-                                <span className="text-[11px] text-center" style={{ color: '#94a3b8' }}>{p.desc}</span>
+                            <div key={p.name} className="absolute z-10 flex flex-col items-center justify-center p-2 rounded-xl" 
+                                style={{ top: p.pos.top, left: p.pos.left, background: 'rgba(3, 16, 31, 0.95)', border: '1px solid rgba(56,189,248,0.15)', width: '100px', transform: 'translate(-50%, -50%)' }}>
+                                <i data-lucide={p.icon} style={{width: '16px', height: '16px', color: '#5eead4', marginBottom: '4px'}}></i>
+                                <span className="text-xs font-bold text-white text-center leading-tight">{p.name}</span>
                             </div>
                         ))}
                     </div>
-                    
-                    <div className="flex flex-wrap justify-center gap-2 relative z-20 -mt-8">
-                        {tags.map((tag, i) => <Tag key={tag} variant={i % 2 === 0 ? 'teal' : 'blue'}>{tag}</Tag>)}
-                    </div>
                 </div>
             );
         };
 
+// ============================================
+        // SLIDE 4: BUSINESS IMPACT
         // ============================================
-        // SLIDE 7: HOW IT CHANGES
-        // ============================================
-        const HowItChangesSlide = () => {
-            const benefits = [
-                { icon: 'layout-dashboard', title: 'Real-time Dashboards', desc: 'No more waiting for end-of-day reports.' },
-                { icon: 'file-check-2', title: 'Structured Data for Billing', desc: 'Production flows into structured pipeline.' },
-                { icon: 'message-circle', title: 'Context-Aware Communication', desc: 'Chat linked to tasks and QC feedback.' },
-                { icon: 'shield-check', title: 'Compliance-Ready Security', desc: 'Zero-trust model, encrypted storage.' }
-            ];
-
-            return (
-                <div className="w-full max-w-5xl">
-                    <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-8">How It <span style={{ background: 'linear-gradient(135deg, #5eead4, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Changes Everything</span></h2>
-                    
-                    <div className="flex items-center gap-0 mb-8 px-1">
-                        <div className="flex flex-col items-center p-6 rounded-xl relative z-10" style={{ background: '#03101f', border: '1px solid rgba(56,189,248,0.15)', borderRadius: '14px 0 0 14px', flex: 1 }}>
-                            <i data-lucide="keyboard" style={{width: '24px', height: '24px', color: '#5eead4', margin: '0 auto 10px'}}></i>
-                            <p className="text-base font-semibold text-white">Enter Once</p>
-                            <p className="text-sm mt-1" style={{ color: '#64748b' }}>Production, timesheets, QC</p>
-                        </div>
-                        <FlowConnector delay={0} />
-                        <div className="flex flex-col items-center p-6 rounded-xl relative z-10" style={{ background: '#03101f', border: '1px solid rgba(14,165,233,0.22)', flex: 1 }}>
-                            <i data-lucide="database" style={{width: '24px', height: '24px', color: '#7dd3fc', margin: '0 auto 10px'}}></i>
-                            <p className="text-base font-semibold text-white">Single Database</p>
-                            <p className="text-sm mt-1" style={{ color: '#64748b' }}>Centralized, real-time</p>
-                        </div>
-                        <FlowConnector delay={0.8} />
-                        <div className="flex flex-col items-center p-6 rounded-xl relative z-10" style={{ background: '#03101f', border: '1px solid rgba(14,165,233,0.22)', borderRadius: '0 14px 14px 0', flex: 1 }}>
-                            <i data-lucide="git-branch" style={{width: '24px', height: '24px', color: '#7dd3fc', margin: '0 auto 10px'}}></i>
-                            <p className="text-base font-semibold text-white">Auto-Flows</p>
-                            <p className="text-sm mt-1" style={{ color: '#64748b' }}>To portals, reports</p>
-                        </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {benefits.map((b, i) => (
-                            <Card key={i} className="flex items-start gap-4 p-5">
-                                <IconBox icon={b.icon} />
-                                <div><p className="text-sm font-semibold text-white">{b.title}</p><p className="text-sm leading-relaxed" style={{ color: '#64748b' }}>{b.desc}</p></div>
-                            </Card>
-                        ))}
-                    </div>
-                </div>
-            );
-        };
-
-        // ============================================
-        // SLIDE 9: BUSINESS IMPACT WITH LIVE COUNTERS
-        // ============================================
-        const BusinessImpactSlide = ({ isActive }) => {
+        const BusinessImpactSlideNew = ({ isActive }) => {
             const impacts = [
-                { icon: 'check-check', title: 'Reduction in Human Errors', desc: 'Structured data replaces manual Excel.', color: '#5eead4' },
-                { icon: 'gauge', title: 'Faster Decisions', desc: 'Real-time dashboards give instant visibility.', color: '#7dd3fc' },
-                { icon: 'users', title: 'Live Team Management', desc: 'TLs see real-time performance.', color: '#a78bfa' },
-                { icon: 'user-plus', title: 'Faster Onboarding', desc: 'Built-in training reduces ramp-up time.', color: '#f59e0b' },
-                { icon: 'shield', title: 'Stronger Security Posture', desc: 'Zero-trust model, encryption.', color: '#5eead4' },
-                { icon: 'rocket', title: 'Scalable Growth', desc: 'Standardized framework for scaling.', color: '#7dd3fc' }
+                { icon: 'check-check', title: 'Reduction in Errors', desc: 'Structured data replaces Excel.', color: '#5eead4' },
+                { icon: 'gauge', title: 'Faster Decisions', desc: 'Real-time dashboards.', color: '#7dd3fc' },
+                { icon: 'users', title: 'Live Management', desc: 'TLs see real-time performance.', color: '#a78bfa' },
+                { icon: 'shield', title: 'Strong Security', desc: 'Zero-trust model.', color: '#5eead4' }
             ];
 
             return (
                 <div className="w-full max-w-5xl">
+                    <p className="text-sm font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#64748b' }}>03 / Impact</p>
                     <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-7">Business <span style={{ background: 'linear-gradient(135deg, #5eead4, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Impact</span></h2>
                     
-                    <div className="grid grid-cols-3 gap-4 mb-4">
+                    <div className="grid grid-cols-3 gap-4 mb-6">
                         <Card hover className="text-center p-6">
-                            <div className="text-[2.8rem] font-extrabold tracking-tight leading-none" style={{ background: 'linear-gradient(135deg, #5eead4, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                            <div className="text-[2.5rem] font-extrabold tracking-tight leading-none" style={{ background: 'linear-gradient(135deg, #5eead4, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                                 <AnimatedCounter target={1000} suffix="+" isActive={isActive} />
                             </div>
-                            <div className="text-sm mt-2" style={{ color: '#64748b' }}>Leadership hours saved annually</div>
+                            <div className="text-sm mt-2" style={{ color: '#64748b' }}>Leadership hours saved</div>
                         </Card>
                         <Card hover className="text-center p-6">
-                            <div className="text-[2.8rem] font-extrabold tracking-tight leading-none" style={{ background: 'linear-gradient(135deg, #5eead4, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                            <div className="text-[2.5rem] font-extrabold tracking-tight leading-none" style={{ background: 'linear-gradient(135deg, #5eead4, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                                 <AnimatedCounter target={100} suffix="%" isActive={isActive} />
                             </div>
                             <div className="text-sm mt-2" style={{ color: '#64748b' }}>Billing accuracy</div>
                         </Card>
                         <Card hover className="text-center p-6">
-                            <div className="text-[2.8rem] font-extrabold tracking-tight leading-none" style={{ color: '#f87171' }}>
+                            <div className="text-[2.5rem] font-extrabold tracking-tight leading-none" style={{ color: '#f87171' }}>
                                 <AnimatedCounter target={0} suffix="" isActive={isActive} />
                             </div>
-                            <div className="text-sm mt-2" style={{ color: '#64748b' }}>Security risk exposure</div>
+                            <div className="text-sm mt-2" style={{ color: '#64748b' }}>Risk exposure</div>
                         </Card>
                     </div>
                     
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <div className="grid grid-cols-2 gap-3">
                         {impacts.map((imp, i) => (
-                            <Card key={i} hover className="p-4">
-                                <div className="flex items-center gap-2.5 mb-1.5">
-                                    <i data-lucide={imp.icon} style={{width: '16px', height: '16px', color: imp.color}}></i>
-                                    <span className="text-sm font-semibold text-white">{imp.title}</span>
+                            <Card key={i} hover className="p-4 flex items-center gap-4">
+                                <i data-lucide={imp.icon} style={{width: '24px', height: '24px', color: imp.color}}></i>
+                                <div>
+                                    <p className="text-sm font-semibold text-white">{imp.title}</p>
+                                    <p className="text-xs" style={{ color: '#64748b' }}>{imp.desc}</p>
                                 </div>
-                                <p className="text-sm" style={{ color: '#64748b' }}>{imp.desc}</p>
                             </Card>
                         ))}
                     </div>
@@ -492,295 +417,143 @@ import Script from "next/script";
             );
         };
 
+// ============================================
+        // SLIDE 5: CURRENT PROGRESS
         // ============================================
-        // SLIDE 11: MPRODUCTION STATUS WITH PROGRESS BAR
-        // ============================================
-        const MproductionStatusSlide = ({ isActive }) => {
-            const features = [
-                { icon: 'edit-3', title: 'Real-time Production Entry', desc: 'Digital timesheets replace Excel.' },
-                { icon: 'layout-dashboard', title: 'Live Team Dashboards', desc: 'TLs see real-time team performance.' },
-                { icon: 'list-checks', title: 'Task Assignment & Tracking', desc: 'Assign, monitor, follow up easily.' },
-                { icon: 'check-circle', title: 'Integrated QC Module', desc: 'Structured audits with instant feedback.' },
-                { icon: 'graduation-cap', title: 'Built-in Training Centre', desc: 'Client-specific materials, tracking.' },
-                { icon: 'user-check', title: 'Deep User Tracking', desc: 'Login/logout, attendance, productivity.' }
-            ];
-
-            return (
-                <div className="w-full max-w-5xl">
-                    <div className="flex items-center gap-3 mb-2">
-                        <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">Mproduction — <span style={{ background: 'linear-gradient(135deg, #5eead4, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>70% Complete</span></h2>
-                        <Tag variant="teal">Beta Release</Tag>
-                    </div>
-                    <p className="text-sm mb-4" style={{ color: '#64748b' }}>First module of the ecosystem. Built and nearly ready.</p>
-                    
-                    {/* Animated Progress Bar */}
-                    <div className="w-full h-2.5 rounded-full mb-6 overflow-hidden" style={{ background: 'rgba(56,189,248,0.05)' }}>
-                        <div className="h-full rounded-full" style={{ 
-                            width: isActive ? '70%' : '0%',
-                            background: 'linear-gradient(90deg, #0d9488, #0ea5e9)',
-                            transition: 'width 1.4s cubic-bezier(0.4, 0, 0.2, 1) 0.3s'
-                        }} />
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        {features.map((f, i) => (
-                            <Card key={i} hover className="flex items-start gap-3.5 p-5">
-                                <IconBox icon={f.icon} />
-                                <div><p className="text-sm font-semibold text-white">{f.title}</p><p className="text-sm" style={{ color: '#64748b' }}>{f.desc}</p></div>
-                            </Card>
-                        ))}
-                    </div>
-                    <p className="text-sm mt-4 text-right" style={{ color: '#475569' }}>Built with Python · React + Tailwind · PostgreSQL</p>
-                </div>
-            );
-        };
-
-        // ============================================
-        // SLIDE 12: CREDENTIAL VAULT COMPARISON
-        // ============================================
-        const CredentialVaultSlide = () => (
+        const ProgressSlide = ({ isActive }) => (
             <div className="w-full max-w-5xl">
-                <div className="flex items-center gap-3 mb-7">
-                    <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">Credential <span style={{ background: 'linear-gradient(135deg, #5eead4, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Vault</span></h2>
-                    <Tag variant="teal">Security</Tag>
-                </div>
+                <p className="text-sm font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#64748b' }}>04 / Current Progress</p>
+                <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-8">What We've <span style={{ background: 'linear-gradient(135deg, #5eead4, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Built So Far</span></h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="rounded-2xl p-7 flex flex-col" style={{ background: 'rgba(239,68,68,0.025)', border: '1px solid rgba(239,68,68,0.08)' }}>
-                        <div className="flex items-center gap-2 mb-4"><Tag variant="red">Current</Tag><span className="text-sm font-semibold" style={{ color: '#f87171' }}>HIGH RISK</span></div>
-                        <div className="flex flex-col gap-1.5 flex-1">
-                            {[
-                                {icon:'laptop',label:'Personal Device'},
-                                {icon:'wifi',label:'VPN Connection'},
-                                {icon:'hard-drive',label:'Company Network Drive'},
-                                {icon:'key',label:'Credentials Exposed',danger:true}
-                            ].map((step, i) => (
-                                <React.Fragment key={i}>
-                                    <div className="flex items-center gap-2.5 px-3 py-2 rounded-lg" style={{background:step.danger?'rgba(239,68,68,0.08)':'rgba(255,255,255,0.015)',border:step.danger?'1px solid rgba(239,68,68,0.18)':'none'}}>
-                                        <i data-lucide={step.icon} style={{width:'15px',height:'15px',color:'#f87171'}}></i>
-                                        <span style={{color:step.danger?'#fca5a5':'#cbd5e1'}}>{step.label}</span>
-                                    </div>
-                                    {i<3 && <div className="text-center" style={{color:'#475569'}}>↓</div>}
-                                </React.Fragment>
-                            ))}
+                    {/* Mproduction */}
+                    <div className="p-6 rounded-2xl" style={{ background: 'rgba(6,26,53,0.6)', border: '1px solid rgba(56,189,248,0.1)' }}>
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-xl font-bold">Mproduction</h3>
+                            <Tag variant="teal">70% Complete</Tag>
                         </div>
-                        <p className="text-sm mt-auto pt-4" style={{color:'rgba(248,113,113,0.5)'}}>Files movable across devices. No audit trail.</p>
+                        <div className="w-full h-1.5 rounded-full mb-5 overflow-hidden" style={{ background: 'rgba(56,189,248,0.1)' }}>
+                            <div className="h-full rounded-full" style={{ width: isActive ? '70%' : '0%', background: 'linear-gradient(90deg, #0d9488, #0ea5e9)', transition: 'width 1s ease-out 0.3s' }} />
+                        </div>
+                        <ul className="text-sm space-y-2 text-[#94a3b8]">
+                            <li className="flex items-center gap-2"><i data-lucide="check" style={{width:'14px',color:'#5eead4'}}></i> Digital Timesheets</li>
+                            <li className="flex items-center gap-2"><i data-lucide="check" style={{width:'14px',color:'#5eead4'}}></i> Live Team Dashboards</li>
+                            <li className="flex items-center gap-2"><i data-lucide="check" style={{width:'14px',color:'#5eead4'}}></i> QC Module & Training</li>
+                        </ul>
                     </div>
-                    
-                    <div className="rounded-2xl p-7 flex flex-col" style={{ background: 'rgba(0,212,170,0.025)', border: '1px solid rgba(0,212,170,0.08)' }}>
-                        <div className="flex items-center gap-2 mb-4"><Tag variant="teal">With MecoApps</Tag><span className="text-sm font-semibold" style={{ color: '#5eead4' }}>ZERO RISK</span></div>
-                        <div className="flex flex-col gap-1.5 flex-1">
-                            {[
-                                {icon:'monitor',label:'Any Device'},
-                                {icon:'globe',label:'MecoApps Portal'},
-                                {icon:'check',label:'Role-Based Secure Access Only',safe:true}
-                            ].map((step, i) => (
-                                <React.Fragment key={i}>
-                                    <div className="flex items-center gap-2.5 px-3 py-2 rounded-lg" style={{background:step.safe?'rgba(0,212,170,0.04)':'rgba(255,255,255,0.015)',border:step.safe?'1px solid rgba(0,212,170,0.18)':'1px solid rgba(0,212,170,0.1)'}}>
-                                        <i data-lucide={step.icon} style={{width:'15px',height:'15px',color:'#5eead4'}}></i>
-                                        <span style={{color:step.safe?'#5eead4':'#cbd5e1'}}>{step.label}</span>
-                                    </div>
-                                    {i<2 && <div className="text-center" style={{color:'#0d9488'}}>↓</div>}
-                                </React.Fragment>
-                            ))}
+
+                    {/* Security & Chat */}
+                    <div className="space-y-6">
+                        <div className="p-5 rounded-2xl flex items-start gap-4" style={{ background: 'rgba(0,212,170,0.05)', border: '1px solid rgba(0,212,170,0.15)' }}>
+                            <div className="p-2 rounded-lg" style={{ background: 'rgba(0,212,170,0.1)' }}><i data-lucide="shield-check" style={{color:'#5eead4'}}></i></div>
+                            <div>
+                                <h3 className="text-md font-bold mb-1">Credential Vault</h3>
+                                <p className="text-xs text-[#94a3b8]">Replaces personal device/VPN risk with encrypted, role-based, zero-trust portal access.</p>
+                            </div>
                         </div>
-                        <p className="text-sm mt-auto pt-4" style={{color:'rgba(94,234,212,0.5)'}}>Encrypted storage. Role-based. Full audit logging.</p>
+                        <div className="p-5 rounded-2xl flex items-start gap-4" style={{ background: 'rgba(14,165,233,0.05)', border: '1px solid rgba(14,165,233,0.15)' }}>
+                            <div className="p-2 rounded-lg" style={{ background: 'rgba(14,165,233,0.1)' }}><i data-lucide="message-circle" style={{color:'#7dd3fc'}}></i></div>
+                            <div>
+                                <h3 className="text-md font-bold mb-1">Unified Chat</h3>
+                                <p className="text-xs text-[#94a3b8]">Replaces scattered tools (Teams, Spark) with one auditable, context-aware communication layer.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         );
 
+// ============================================
+        // SLIDE 6: THE PLAN
         // ============================================
-        // SLIDE 13: UNIFIED CHAT
-        // ============================================
-        const UnifiedChatSlide = () => (
+        const PlanSlide = () => (
             <div className="w-full max-w-5xl">
-                <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-7">One Unified <span style={{ background: 'linear-gradient(135deg, #5eead4, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Communication</span> Platform</h2>
-                <div className="grid grid-cols-2 gap-10">
-                    {/* LEFT: Replace This Chaos */}
-                    <div className="flex flex-col">
-                        <p className="text-sm font-semibold uppercase tracking-wider mb-5" style={{ color: '#f87171' }}>Replace This Chaos</p>
-                        <div className="flex items-center gap-3 mb-6" style={{ minHeight: '90px' }}>
-                            {[{icon:'message-square',name:'Teams'},{icon:'zap',name:'Spark'},{icon:'link',name:'LinQ'},{icon:'mail',name:'Email'},{icon:'message-circle',name:'Google Chat'}].map((app,i)=>(
-                                <div key={i} className="relative flex flex-col items-center gap-1">
-                                    <div className="relative w-14 h-14 rounded-xl flex items-center justify-center" style={{background:'rgba(255,255,255,0.015)',border:'1px solid rgba(255,255,255,0.04)'}}>
-                                        <i data-lucide={app.icon} style={{width:'20px',height:'20px',color:'#475569'}}></i>
-                                        <span className="absolute -top-1.5 -right-1.5 w-4.5 h-4.5 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center">✕</span>
+                <p className="text-sm font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#64748b' }}>05 / The Plan</p>
+                <div className="flex flex-col md:flex-row gap-10">
+                    <div className="flex-1">
+                        <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-8">Roadmap & <span style={{ background: 'linear-gradient(135deg, #5eead4, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Needs</span></h2>
+                        <div className="space-y-5 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-[#0ea5e9]/20 before:to-transparent">
+                            {[
+                                { phase: 'NOW', title: 'Mproduction Pilot', desc: 'Finish 30% → Advita Pilot', active: true },
+                                { phase: 'PHASE 2', title: 'HRMS Portal', desc: 'Recruitment, payroll, attendance' },
+                                { phase: 'PHASE 3', title: 'Management', desc: 'Dashboards & billing' },
+                                { phase: 'PHASE 4', title: 'Full Rollout', desc: 'All departments live.' }
+                            ].map((p, i) => (
+                                <div key={i} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                                    <div className={`flex items-center justify-center w-10 h-10 rounded-full border-4 border-[#03101f] shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow flex-col ${p.active ? 'bg-[#0d9488]' : 'bg-[#0ea5e9]'}`}></div>
+                                    <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border border-[#0ea5e9]/10 bg-[#061a35]/60 shadow">
+                                        <div className="flex items-center justify-between mb-1">
+                                            <div className={`font-bold ${p.active ? 'text-[#5eead4]' : 'text-[#7dd3fc]'}`}>{p.phase}</div>
+                                        </div>
+                                        <div className="text-white font-semibold">{p.title}</div>
+                                        <div className="text-[#64748b] text-sm">{p.desc}</div>
                                     </div>
-                                    <span className="text-[10px]" style={{color:'#64748b'}}>{app.name}</span>
                                 </div>
                             ))}
                         </div>
-                        <div className="flex flex-col gap-2.5">
-                            {[{icon:'split',text:'Scattered communication'},{icon:'megaphone-off',text:'No proper broadcasting system'},{icon:'users-round',text:'No group messaging'},{icon:'search-x',text:'Lost context'},{icon:'shield-off',text:'Less secure'}].map((f,i)=>
-                                <div key={i} className="flex items-center gap-3 text-sm" style={{color:'#94a3b8'}}><i data-lucide={f.icon} style={{width:'14px',height:'14px',color:'#f87171',minWidth:'14px'}}></i>{f.text}</div>
-                            )}
-                        </div>
                     </div>
-                    {/* RIGHT: With This */}
-                    <div className="flex flex-col">
-                        <p className="text-sm font-semibold uppercase tracking-wider mb-5" style={{ color: '#5eead4' }}>With This</p>
-                        <div className="flex flex-col items-center justify-center gap-2 mb-6" style={{ minHeight: '90px' }}>
-                            <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{background:'linear-gradient(135deg, rgba(0,212,170,0.08), rgba(14,165,233,0.08))',border:'1px solid rgba(0,212,170,0.18)'}}>
-                                <i data-lucide="message-circle" style={{width:'26px',height:'26px',color:'#00d4aa'}}></i>
-                            </div>
-                            <span className="text-base font-semibold" style={{background:'linear-gradient(135deg, #5eead4, #38bdf8)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>MecoApps Chat</span>
+                    <div className="flex-1">
+                        <h3 className="text-xl font-bold mb-5 mt-2">What I Need To Execute</h3>
+                        <div className="space-y-3">
+                            {[
+                                'Official Sanction & Approval',
+                                'Pilot Authorization (Advita)',
+                                'Infrastructure Support',
+                                'Small Support Team for Feedback'
+                            ].map((need, i) => (
+                                <div key={i} className="flex items-center gap-3 p-4 rounded-xl bg-[#061a35]/50 border border-[#38bdf8]/10">
+                                    <div className="w-6 h-6 rounded-full bg-[#0d9488] text-[#041428] flex items-center justify-center text-xs font-bold">{i+1}</div>
+                                    <span className="text-sm font-medium">{need}</span>
+                                </div>
+                            ))}
                         </div>
-                        <div className="flex flex-col gap-2.5">
-                            {[{icon:'user',text:'One-on-One Messaging'},{icon:'users',text:'Group & Team Chats'},{icon:'megaphone',text:'HR Broadcasts'},{icon:'link-2',text:'Context-Aware'},{icon:'shield',text:'Encrypted & Auditable'}].map((f,i)=>
-                                <div key={i} className="flex items-center gap-3 text-sm" style={{color:'#94a3b8'}}><i data-lucide={f.icon} style={{width:'14px',height:'14px',color:'#5eead4',minWidth:'14px'}}></i>{f.text}</div>
-                            )}
+                        <div className="mt-6 p-4 rounded-xl text-center bg-[#0ea5e9]/5 border border-[#0ea5e9]/10">
+                            <p className="text-sm font-medium text-[#94a3b8]">I will personally oversee every aspect — development through rollout.</p>
                         </div>
                     </div>
                 </div>
             </div>
         );
 
+// ============================================
+        // SLIDE 7: CLOSING
         // ============================================
-        // SLIDE 15: ROADMAP TIMELINE
-        // ============================================
-        const RoadmapSlide = () => {
-            const phases = [
-                { phase: 'NOW', variant: 'teal', title: 'Mproduction Pilot', desc: 'Complete remaining 30% → Pilot in Advita → Iterate', active: true },
-                { phase: 'PHASE 2', variant: 'blue', title: 'HRMS Portal', desc: 'Recruitment, records, payroll, attendance', active: false },
-                { phase: 'PHASE 3', variant: 'blue', title: 'Management & Admin', desc: 'Dashboards, billing, analytics', active: false },
-                { phase: 'PHASE 4', variant: 'teal', title: 'Full Rollout', desc: 'All departments live. AI/ML ready.', active: false }
-            ];
-
-            return (
-                <div className="w-full max-w-4xl">
-                    <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-9">Roadmap to <span style={{ background: 'linear-gradient(135deg, #5eead4, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Full Rollout</span></h2>
-                    <div className="relative">
-                        {phases.map((phase, i) => (
-                            <div key={i} className="relative pl-9 pb-7" style={{paddingBottom:i===phases.length-1?'0':'28px'}}>
-                                <div className="absolute left-0 top-1.5 w-3.5 h-3.5 rounded-full border-2" style={{borderColor:phase.active?'transparent':'#0ea5e9',background:phase.active?'linear-gradient(135deg, #0d9488, #0ea5e9)':'#041428',boxShadow:phase.active?'0 0 12px rgba(14,165,233,0.3)':'none'}}/>
-                                {i<phases.length-1 && <div className="absolute left-[6px] top-6 bottom-0 w-0.5" style={{background:'linear-gradient(to bottom, rgba(14,165,233,0.18), rgba(14,165,233,0.02))'}}/>}
-                                <div>
-                                    <Tag variant={phase.variant} style={{fontSize:'10px'}}>{phase.phase}</Tag>
-                                    <p className="text-base font-semibold text-white mt-1.5">{phase.title}</p>
-                                    <p className="text-sm mt-1 leading-relaxed" style={{color:'#64748b'}}>{phase.desc}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            );
-        };
-
-        // ============================================
-        // SLIDE 16: RESOURCE NEEDS
-        // ============================================
-        const ResourceNeedsSlide = () => {
-            const needs = [
-                { num: 1, title: 'Official Sanction', desc: 'Formal approval as company project' },
-                { num: 2, title: 'Pilot Approval', desc: 'Authorization for Advita pilot' },
-                { num: 3, title: 'Infrastructure Support', desc: 'Technical resources for development and deployment' },
-                { num: 4, title: 'Development Time', desc: 'Complete remaining 30% + build portals' },
-                { num: 5, title: 'Small Support Team', desc: 'Cross-functional reps for feedback' }
-            ];
-
-            return (
-                <div className="w-full max-w-4xl">
-                    <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-2">What I <span style={{ background: 'linear-gradient(135deg, #5eead4, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Need</span></h2>
-                    <p className="text-sm mb-7" style={{ color: '#64748b' }}>To move MecoApps from internal project to formal initiative.</p>
-                    <div className="flex flex-col gap-3">
-                        {needs.map((need) => (
-                            <div key={need.num} className="flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all duration-300" style={{background:'rgba(6,26,53,0.45)',border:'1px solid rgba(56,189,248,0.03)'}}
-                                onMouseEnter={(e)=>{e.currentTarget.style.background='rgba(6,26,53,0.6)';e.currentTarget.style.borderColor='rgba(56,189,248,0.1)'}}
-                                onMouseLeave={(e)=>{e.currentTarget.style.background='rgba(6,26,53,0.45)';e.currentTarget.style.borderColor='rgba(56,189,248,0.03)'}}
-                            >
-                                <div className="w-8 h-8 min-w-[32px] rounded-lg text-xs font-bold flex items-center justify-center" style={{background:'linear-gradient(135deg, #0d9488, #0ea5e9)',color:'#041428'}}>{need.num}</div>
-                                <div><p className="text-sm font-semibold text-white">{need.title}</p><p className="text-sm" style={{color:'#64748b'}}>{need.desc}</p></div>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="mt-6 p-4 rounded-xl text-center" style={{background:'rgba(14,165,233,0.04)',border:'1px solid rgba(14,165,233,0.1)'}}><p className="text-sm font-medium" style={{color:'#94a3b8'}}>I will personally oversee every aspect — development through rollout.</p></div>
-                </div>
-            );
-        };
-
-        // ============================================
-        // SLIDE 17: CLOSING CTA
-        // ============================================
-        const ClosingCTASlide = () => (
+        const ClosingCombinedSlide = () => (
             <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
                 <p className="text-sm font-semibold tracking-[0.25em] uppercase mb-4" style={{ color: '#5eead4' }}>The Path Forward</p>
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-10">LET'S BUILD <span style={{ background: 'linear-gradient(135deg, #5eead4, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>THE FUTURE</span></h2>
-                <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10 mb-10 w-full max-w-xl">
-                    <div className="flex flex-col gap-3 text-left flex-1 w-full">
-                        <p className="text-xs font-semibold uppercase tracking-wider" style={{color:'#f87171'}}>From</p>
-                        {['Manual processes','Excel based production tracking','Email-dependent reporting'].map(item=>(
-                            <div key={item} className="flex items-center gap-3 p-3.5 rounded-lg" style={{background:'rgba(239,68,68,0.025)',border:'1px solid rgba(239,68,68,0.06)'}}>
-                                <i data-lucide="x" style={{width:'14px',height:'14px',color:'#f87171',minWidth:'14px'}}></i>
-                                <span className="text-sm" style={{color:'#94a3b8'}}>{item}</span>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="flex flex-col items-center">
-                        <i data-lucide="arrow-right" className="hidden md:block" style={{width:'28px',height:'28px',color:'#5eead4'}}></i>
-                        <i data-lucide="arrow-down" className="block md:hidden" style={{width:'28px',height:'28px',color:'#5eead4'}}></i>
-                    </div>
-                    <div className="flex flex-col gap-3 text-left flex-1 w-full">
-                        <p className="text-xs font-semibold uppercase tracking-wider" style={{color:'#5eead4'}}>To</p>
-                        {['Automated ecosystem','Data-driven operations','Proactive & secure platform'].map(item=>(
-                            <div key={item} className="flex items-center gap-3 p-3.5 rounded-lg" style={{background:'rgba(0,212,170,0.03)',border:'1px solid rgba(0,212,170,0.08)'}}>
-                                <i data-lucide="check" style={{width:'14px',height:'14px',color:'#5eead4',minWidth:'14px'}}></i>
-                                <span className="text-sm text-white font-medium">{item}</span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-                <div className="relative py-6">
-                    <div className="absolute inset-0 -m-6 rounded-3xl" style={{background:'linear-gradient(135deg, rgba(13,148,136,0.04), rgba(14,165,233,0.04))',filter:'blur(20px)',zIndex:0}}/>
-                    <p className="relative z-10 text-xl md:text-2xl font-semibold text-white">With your approval, we begin immediately.</p>
-                </div>
-            </div>
-        );
-
-        // ============================================
-        // SLIDE 18: CLOSING
-        // ============================================
-        const ClosingSlide = () => (
-            <div className="flex flex-col items-center text-center max-w-2xl mx-auto">
-                <div className="relative inline-flex flex-col items-center justify-center mb-5">
-                    <img src="/assets/mecoapps_logo.png" alt="MecoApps" style={{height:'80px',position:'relative',zIndex:1}}/>
-                </div>
-                <p className="text-base mb-6" style={{color:'#64748b'}}>Thank you for your time and consideration.</p>
-                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight leading-snug mb-8" style={{color:'#e2e8f0'}}>"The foundation is already built, with your support, MecoApps will transform how Mangalam operates."</h2>
-                <p className="text-base mb-4" style={{color:'#64748b'}}>Don't just read about it. Experience it yourself.</p>
-                <a href="https://dev.mecoapps.in/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2.5 px-7 py-4 rounded-xl text-base font-semibold transition-all duration-300 cursor-pointer no-underline" style={{background:'linear-gradient(135deg, rgba(8,145,178,0.06), rgba(3,105,161,0.06))',border:'1px solid rgba(14,165,233,0.15)',color:'#7dd3fc'}}
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-8">LET'S BUILD <span style={{ background: 'linear-gradient(135deg, #5eead4, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>THE FUTURE</span></h2>
+                
+                <h2 className="text-xl md:text-2xl font-bold tracking-tight leading-snug mb-8 text-[#e2e8f0]">"The foundation is already built, with your support, MecoApps will transform how Mangalam operates."</h2>
+                
+                <a href="https://dev.mecoapps.in/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2.5 px-7 py-4 rounded-xl text-base font-semibold transition-all duration-300 cursor-pointer no-underline mb-6" style={{background:'linear-gradient(135deg, rgba(8,145,178,0.06), rgba(3,105,161,0.06))',border:'1px solid rgba(14,165,233,0.15)',color:'#7dd3fc'}}
                     onMouseEnter={(e)=>{e.currentTarget.style.background='linear-gradient(135deg, rgba(8,145,178,0.12), rgba(3,105,161,0.12))';e.currentTarget.style.borderColor='rgba(14,165,233,0.25)';e.currentTarget.style.transform='translateY(-2px)';e.currentTarget.style.boxShadow='0 8px 20px rgba(14,165,233,0.06)'}}
                     onMouseLeave={(e)=>{e.currentTarget.style.background='linear-gradient(135deg, rgba(8,145,178,0.06), rgba(3,105,161,0.06))';e.currentTarget.style.borderColor='rgba(14,165,233,0.15)';e.currentTarget.style.transform='translateY(0)';e.currentTarget.style.boxShadow='none'}}
                 ><i data-lucide="external-link" style={{width:'16px',height:'16px'}}></i><span>dev.mecoapps.in</span></a>
-                <p className="text-sm font-semibold uppercase tracking-wider mt-6 mb-3" style={{color:'#5eead4'}}>Demo Credentials</p>
-                <div className="flex flex-col gap-2 mt-2 w-full max-w-xs">
-                    <div className="flex items-center justify-between px-5 py-3 rounded-lg cursor-pointer transition-all duration-200" style={{background:'rgba(14,165,233,0.06)',border:'1px solid rgba(14,165,233,0.12)'}}
-                        onClick={(e) => { navigator.clipboard.writeText('vp_demo'); const el = e.currentTarget; el.style.borderColor='rgba(94,234,212,0.5)'; setTimeout(() => el.style.borderColor='rgba(14,165,233,0.12)', 1000); }}
-                    >
-                        <div><p className="text-xs" style={{color:'#64748b'}}>User ID</p><p className="text-sm font-bold" style={{color:'#7dd3fc'}}>vp_demo</p></div>
-                        <i data-lucide="copy" style={{width:'14px',height:'14px',color:'#475569'}}></i>
+                
+                <div className="flex gap-4">
+                    <div className="text-left px-4 py-2 rounded border border-[#0ea5e9]/20 bg-[#0ea5e9]/5">
+                        <p className="text-xs text-[#64748b]">User ID</p>
+                        <p className="text-sm font-bold text-[#7dd3fc]">vp_demo</p>
                     </div>
-                    <div className="flex items-center justify-between px-5 py-3 rounded-lg cursor-pointer transition-all duration-200" style={{background:'rgba(14,165,233,0.06)',border:'1px solid rgba(14,165,233,0.12)'}}
-                        onClick={(e) => { navigator.clipboard.writeText('Demo@123'); const el = e.currentTarget; el.style.borderColor='rgba(94,234,212,0.5)'; setTimeout(() => el.style.borderColor='rgba(14,165,233,0.12)', 1000); }}
-                    >
-                        <div><p className="text-xs" style={{color:'#64748b'}}>Password</p><p className="text-sm font-bold" style={{color:'#7dd3fc'}}>Demo@123</p></div>
-                        <i data-lucide="copy" style={{width:'14px',height:'14px',color:'#475569'}}></i>
+                    <div className="text-left px-4 py-2 rounded border border-[#0ea5e9]/20 bg-[#0ea5e9]/5">
+                        <p className="text-xs text-[#64748b]">Password</p>
+                        <p className="text-sm font-bold text-[#7dd3fc]">Demo@123</p>
                     </div>
                 </div>
-                <div className="flex items-center gap-3 mt-8"><div className="w-6 h-px" style={{background:'rgba(56,189,248,0.12)'}}></div><p className="text-sm" style={{color:'#475569'}}>Prepared by Vishal Chabhad · April 2026 · Confidential</p><div className="w-6 h-px" style={{background:'rgba(56,189,248,0.12)'}}></div></div>
+                
+                <div className="flex items-center gap-3 mt-10"><div className="w-6 h-px" style={{background:'rgba(56,189,248,0.12)'}}></div><p className="text-sm" style={{color:'#475569'}}>Prepared by Vishal Chabhad · April 2026 · Confidential</p><div className="w-6 h-px" style={{background:'rgba(56,189,248,0.12)'}}></div></div>
             </div>
         );
 
-        // ============================================
-        // MAIN APP - WITH ALL ANIMATIONS RESTORED
+// ============================================
+        // MAIN APP - CONDENSED
         // ============================================
         const App = () => {
             const [currentSlide, setCurrentSlide] = useState(0);
-            const totalSlides = 19;
+            const totalSlides = 8;
             const touchStartX = useRef(0);
             const isBusy = useRef(false);
 
-            // Navigation functions defined FIRST
             const goToSlide = useCallback((idx) => {
                 if (isBusy.current || idx === currentSlide || idx < 0 || idx >= totalSlides) return;
                 isBusy.current = true;
@@ -791,30 +564,17 @@ import Script from "next/script";
             const nextSlide = useCallback(() => goToSlide(currentSlide + 1), [currentSlide, goToSlide]);
             const prevSlide = useCallback(() => goToSlide(currentSlide - 1), [currentSlide, goToSlide]);
 
-            // Slides array with proper props passing
             const slides = [
                 <TitleSlide />,
                 <AgendaSlide onNavigate={goToSlide} />,
-                <SectionDivider number="01" title="PROBLEM" subtitle="Why our current operational architecture is failing" />,
-                <ProblemNumbersSlide isActive={currentSlide === 3} />,
-                <FailuresSlide />,
-                <SectionDivider number="02" title="SOLUTION" subtitle="MecoApps — a unified, intelligent ecosystem" />,
-                <EcosystemDiagramSlide />,
-                <HowItChangesSlide />,
-                <SectionDivider number="03" title="IMPACT" subtitle="Measurable outcomes that affect the bottom line" />,
-                <BusinessImpactSlide isActive={currentSlide === 9} />,
-                <SectionDivider number="04" title="CURRENT PROGRESS" subtitle="Development is underway — here's where we stand today" />,
-                <MproductionStatusSlide isActive={currentSlide === 11} />,
-                <CredentialVaultSlide />,
-                <UnifiedChatSlide />,
-                <SectionDivider number="05" title="PLAN" subtitle="Roadmap to full organizational rollout by mid-2027" />,
-                <RoadmapSlide />,
-                <ResourceNeedsSlide />,
-                <ClosingCTASlide />,
-                <ClosingSlide />
+                <ProblemSlide isActive={currentSlide === 2} />,
+                <SolutionSlide />,
+                <BusinessImpactSlideNew isActive={currentSlide === 4} />,
+                <ProgressSlide isActive={currentSlide === 5} />,
+                <PlanSlide />,
+                <ClosingCombinedSlide />
             ];
 
-            // Event handlers
             useEffect(() => {
                 const handleKeyDown = (e) => {
                     if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); nextSlide(); }
@@ -836,7 +596,7 @@ import Script from "next/script";
 
             useEffect(() => {
                 const frame = requestAnimationFrame(() => {
-                    try { if (window.lucide) window.lucide.createIcons(); } catch (e) { /* Lucide DOM mutation may conflict with React reconciliation */ }
+                    try { if (window.lucide) window.lucide.createIcons(); } catch (e) {}
                 });
                 return () => cancelAnimationFrame(frame);
             });
@@ -857,7 +617,6 @@ import Script from "next/script";
             );
         };
 
-        // Mount
-        
         export default App;
+export default App;
     
