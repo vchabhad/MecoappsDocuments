@@ -65,7 +65,11 @@ export async function registerWebDocument(formData: FormData) {
     link = `/view/${link}`;
   }
 
-  const documentId = crypto.randomUUID();
+  let documentId = crypto.randomUUID();
+  if (link.startsWith("/view/")) {
+    documentId = link.replace("/view/", "");
+  }
+
   const { error: dbError } = await supabase
     .from('Documents')
     .insert({

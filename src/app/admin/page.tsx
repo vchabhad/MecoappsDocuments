@@ -360,7 +360,19 @@ export default function AdminDashboard() {
                                 })
                               }
                               {localWebPresentations.filter(f => f.toLowerCase().includes(localWebSearch.toLowerCase())).length === 0 && (
-                                <li className="px-3 py-4 text-sm text-gray-500 text-center">No folders found.</li>
+                                <li 
+                                  className="px-3 py-4 text-sm text-sky-400 hover:text-sky-300 text-center cursor-pointer border-t border-gray-700"
+                                  onClick={() => {
+                                    const customRoute = `/view/${localWebSearch.trim()}`;
+                                    setFile(customRoute);
+                                    if (!title) {
+                                      setTitle(localWebSearch.trim());
+                                    }
+                                    setLocalWebDropdownOpen(false);
+                                  }}
+                                >
+                                  Use custom path: "{localWebSearch}"
+                                </li>
                               )}
                             </ul>
                           </div>
