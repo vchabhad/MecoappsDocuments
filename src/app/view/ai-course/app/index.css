@@ -272,3 +272,21 @@ body {
   height: 100%;
   align-items: stretch;
 }
+
+/* Fix CSS conflicts with Next.js globals */
+.ai-course-container {
+  color: var(--text-primary) !important;
+}
+.ai-course-container h1,
+.ai-course-container h2,
+.ai-course-container h3,
+.ai-course-container h4,
+.ai-course-container p,
+.ai-course-container span,
+.ai-course-container div,
+.ai-course-container li,
+.ai-course-container strong,
+.ai-course-container b {
+  color: inherit;
+}
+
